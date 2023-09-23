@@ -1,11 +1,34 @@
 """Main function of our RESTful Flask app."""
 from flask import Flask
 from flask_restful import Api, Resource, reqparse, abort
-
+from flask_sqlalchemy import SQLAlchemy
+from pathlib import Path
 
 app = Flask(__name__)
 api = Api(app)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 
+db = SQLAlchemy(app)
+
+
+# define SQLite table
+class VideoModel(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    views = db.Column(db.Integer, nullable=False)
+    likes = db.Column(db.Integer, nullable=False)
+
+    def __repr__(self):
+        return f"Video(name = {name}, views = {views}, likes = {likes})"
+
+
+# create database
+db_path = Path("./").resolve().parent / "instance/database.db"
+if not db_path.exists():
+    with app.app_context():
+        db.create_all()
+
+# arguments parser of Flask RESTful
 video_put_args = reqparse.RequestParser()
 video_put_args.add_argument(
     "name", type=str, help="Name of the video is required", required=True
@@ -17,23 +40,11 @@ video_put_args.add_argument(
     "likes", type=int, help="Likes on the video is required", required=True
 )
 
-videos = {}
-
-
-def if_video_id_not_exist(video_id):
-    if video_id not in videos:
-        abort(404, message="Video id is not valid.")
-
-
-def if_video_id_exist(video_id):
-    if video_id in videos:
-        abort(409, message="Video id already exists.")
-
 
 class Video(Resource):
     def get(self, video_id):
-        if_video_id_not_exist(video_id)
-        return videos[video_id]
+        result = VideoModel.query.get(id=video_id)
+        return result
 
     def put(self, video_id):
         if_video_id_exist(video_id)
