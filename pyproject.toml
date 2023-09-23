@@ -48,10 +48,11 @@ classifiers = [
   "Programming Language :: Python :: 3.11",
 ]
 dependencies = [
-  "flask",
-  "sqlalchemy",
+  "Flask",
+  "SQLAlchemy",
   "Flask-RESTful",
   "requests",
+  "Flask-SQLAlchemy",
 ]
 dynamic = ["version"]
 
