@@ -1,4 +1,4 @@
-"""Main function of our RESTful Flask app."""
+"""RESTful Flask app without database."""
 from flask import Flask
 from flask_restful import Api, Resource, reqparse, abort
 

@@ -1,6 +1,6 @@
-"""Main function of our RESTful Flask app."""
+"""RESTful Flask app with SQLAlchemy."""
 from flask import Flask
-from flask_restful import Api, Resource, reqparse, abort
+from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from flask_sqlalchemy import SQLAlchemy
 from pathlib import Path
 
@@ -40,22 +40,41 @@ video_put_args.add_argument(
     "likes", type=int, help="Likes on the video is required", required=True
 )
 
+resource_fields = {
+    "id": fields.Integer,
+    "name": fields.String,
+    "views": fields.Integer,
+    "likes": fields.Integer,
+}
+
 
 class Video(Resource):
+    @marshal_with(resource_fields)
     def get(self, video_id):
-        result = VideoModel.query.get(id=video_id)
+        result = VideoModel.query.filter_by(id=video_id).first()
+        if not result:
+            abort(409, message=f"Video with ID={video_id} does not exist!")
         return result
 
+    @marshal_with(resource_fields)
     def put(self, video_id):
-        if_video_id_exist(video_id)
         args = video_put_args.parse_args()
-        videos[video_id] = args
-        return videos[video_id], 201
+        result = VideoModel.query.filter_by(id=video_id).first()
+        # check duplication
+        if result:
+            abort(409, message="Video ID is already taken!")
 
-    def delete(self, video_id):
-        if_video_id_not_exist(video_id)
-        del videos[video_id]
-        return "", 204
+        video = VideoModel(
+            id=video_id, name=args["name"], views=args["views"], likes=args["likes"]
+        )
+        db.session.add(video)
+        db.session.commit()
+        return video, 201
+
+    # def delete(self, video_id):
+    #     if_video_id_not_exist(video_id)
+    #     del videos[video_id]
+    #     return "", 204
 
 
 api.add_resource(Video, "/video/<int:video_id>")
