@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Home Page{% endblock %}
+{% block content %}
+
+<div>
+    <h2>Manage videos</h2>
+    <form action="/metadata" method="post">
+        <!-- <div>
+            <label for="id">ID</label>
+            <input type="number" name="id" >
+        </div> -->
+        <div>
+            <label for="name">Name</label>
+            <input type="text" name="name" >
+        </div>
+        <div>
+            <label for="views">Views</label>
+            <input type="number" name="views" >
+        </div>
+        <div>
+            <label for="likes">Likes</label>
+            <input type="number" name="likes" >
+        </div>
+        <div id="submit">
+            <button type="btnAdd" class="btn">Submit</button>
+            <a href="/" class="btn btn-primary">Cancel</a>
+          </div>
+    </form>
+</div>
+
+{% endblock %}
