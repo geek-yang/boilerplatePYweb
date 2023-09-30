@@ -23,7 +23,7 @@ class VideoModel(db.Model):
 
 
 # create database
-db_path = Path("./").resolve().parent / "instance/database.db"
+db_path = Path(__file__).parents[1].resolve() / "instance/database.db"
 if not db_path.exists():
     with app.app_context():
         db.create_all()

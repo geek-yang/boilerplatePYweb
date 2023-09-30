@@ -28,3 +28,8 @@ To start the server in the development mode, navigate to the repo and run:
 ```py
 python pyweb/main.py
 ```
+
+Here we can send requests to the server to query the database via REST API. For instance, an example is given in `test.py` and you can simply run it (make sure the server is on).
+```py
+python pyweb/test.py
+```
