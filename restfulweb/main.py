@@ -1,5 +1,5 @@
 """RESTful Flask app with SQLAlchemy."""
-from flask import Flask
+from flask import Flask, render_template
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from flask_sqlalchemy import SQLAlchemy
 from pathlib import Path
@@ -70,7 +70,6 @@ class Video(Resource):
         # check duplication
         if result:
             abort(409, message="Video ID is already taken!")
-
         video = VideoModel(
             id=video_id, name=args["name"], views=args["views"], likes=args["likes"]
         )
@@ -105,7 +104,12 @@ class Video(Resource):
         return "", 204
 
 
-api.add_resource(Video, "/video/<int:video_id>")
+api.add_resource(Video, "/metadata")
+
+
+@app.route("/")
+def index():
+    return render_template("index.html", videos = VideoModel.query.all())
 
 
 if __name__ == "__main__":

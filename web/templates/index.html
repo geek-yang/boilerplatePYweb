@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Video Metadata</title>
+</head>
+<body>
+    <h1>Video Metadata</h1>
+    <h2>List of Videos:</h2>
+    <ul>
+        {% for video in videos %}
+            <li>
+                <strong>{{ video.name }}</strong> (Views: {{ video.views }}, Likes: {{ video.likes }})
+                <a href="/update/{{ video.id }}">Update</a>
+                <a href="/delete/{{ video.id }}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="/insert">Insert New Video</a>
+</body>
+</html>

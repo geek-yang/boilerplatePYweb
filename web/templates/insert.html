@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insert New Video</title>
+</head>
+<body>
+    <h2>Insert New Video</h2>
+    <form method="POST" action="/insert">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        <label for="views">Views:</label>
+        <input type="number" id="views" name="views" required><br><br>
+        <label for="likes">Likes:</label>
+        <input type="number" id="likes" name="likes" required><br><br>
+        <input type="submit" value="Insert">
+    </form>
+    <a href="/">Back to List</a>
+</body>
+</html>
