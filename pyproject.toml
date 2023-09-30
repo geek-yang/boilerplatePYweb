@@ -3,7 +3,7 @@ requires = ["hatchling>=1.8.0", "hatch-vcs", "hatch-fancy-pypi-readme"]
 build-backend = "hatchling.build"
 
 [tool.hatch.version]
-path = "pyweb/__init__.py"
+path = "web/__init__.py"
 
 [tool.hatch.build.targets.sdist]
 exclude = [
@@ -18,7 +18,7 @@ packages = ["pyweb"]
 disable = true  # Requires confirmation when publishing to pypi.
 
 [project]
-name = "pyweb"
+name = "web"
 description = "Python RESTful web app."
 readme = "README.md"
 license = "Apache-2.0"
@@ -76,26 +76,26 @@ docs = [
 ]
 
 [project.urls]
-Documentation = "https://pyweb.readthedocs.io/"
-Homepage = "https://github.com/geek-yang/pyweb"
+Documentation = "https://web.readthedocs.io/"
+Homepage = "https://github.com/geek-yang/web"
 
 [tool.hatch.envs.default]
 features = ["dev"]
 
 [tool.hatch.envs.default.scripts]
 lint = [
-  "ruff check pyweb/ tests/",
-  "mypy pyweb/",
-  "black --check --diff pyweb/ tests/",
+  "ruff check web/ tests/",
+  "mypy web/",
+  "black --check --diff web/ tests/",
 ]
 
 format = [
-  "black pyweb/ tests/",
-  "ruff check pyweb/ tests/ --fix --exit-non-zero-on-fix",
+  "black web/ tests/",
+  "ruff check web/ tests/ --fix --exit-non-zero-on-fix",
   "lint",
 ]
 
-test = ["pytest ./pyweb/ ./tests/ --doctest-modules --doctest-ignore-import-errors",]
+test = ["pytest ./web/ ./tests/ --doctest-modules --doctest-ignore-import-errors",]
 coverage = [
   "pytest --cov --cov-report term --cov-report xml --junitxml=xunit-result.xml tests/",
 ]
@@ -160,14 +160,14 @@ convention = "google"
 max-complexity = 10
 
 [tool.ruff.isort]
-known-first-party = ["pyweb"]
+known-first-party = ["web"]
 force-single-line = true
 lines-after-imports = 2
 no-lines-before = ["future","standard-library","third-party","first-party","local-folder"]
 
 [tool.coverage.run]
 branch = true
-source = ["pyweb"]
+source = ["web"]
 command_line = "-m pytest"
 
 [tool.coverage.report]
